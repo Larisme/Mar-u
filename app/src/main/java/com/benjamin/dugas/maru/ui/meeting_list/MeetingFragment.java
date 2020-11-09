@@ -2,6 +2,7 @@ package com.benjamin.dugas.maru.ui.meeting_list;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MeetingFragment extends Fragment {
 
@@ -48,6 +50,7 @@ public class MeetingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meeting_list, container, false);
         Context context = view.getContext();
+        recyclerView = view.findViewById(R.id.meeting_list);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(context));
         initList();
         return view;

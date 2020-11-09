@@ -4,6 +4,9 @@ import java.util.List;
 
 public class    Meeting {
 
+    /** Avatar **/
+    private int avatarColor;
+
     /** Hour **/
     private String hour;
 
@@ -23,13 +26,18 @@ public class    Meeting {
      * @param topic
      * @param participants
      */
-    public Meeting(String hour, String location, String topic,
+    public Meeting(int avatarColor, String hour, String location, String topic,
                    List<String> participants) {
+        this.avatarColor = avatarColor;
         this.hour = hour;
         this.location = location;
         this.topic = topic;
         this.participants = participants;
     }
+
+    public int getAvatarColor() {return avatarColor; }
+
+    public void setAvatarColor(int avatarColor) { this.avatarColor = avatarColor; }
 
     public String getHour() { return hour; }
 

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.benjamin.dugas.maru.R;
 import com.benjamin.dugas.maru.events.DeleteMeetingEvent;
 import com.benjamin.dugas.maru.model.Meeting;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,6 +34,12 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     @Override
     public void onBindViewHolder(MeetingViewHolder viewHolder, int position){
         final Meeting meeting = mMeetings.get(position);
+        Glide.with(viewHolder.mMeetingAvatar.getContext())
+                .load(meeting.getAvatarColor())
+                .apply(RequestOptions.circleCropTransform())
+                .into(viewHolder.mMeetingAvatar);
+
+        viewHolder.mMeetingAvatar.setColorFilter(meeting.getAvatarColor());
         viewHolder.mMeetingInfo.setText(String.format("Réunion %s - %s - %s", meeting.getLocation(), meeting.getHour(), meeting.getTopic()));
         viewHolder.mMeetingParticipants.setText(String.format("%s, %s...", meeting.getParticipant(0), meeting.getParticipant(1)));
 
@@ -39,9 +47,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
-
-                /* mMeetings.remove(meeting);
-                notifyDataSetChanged(); */
             }
         });
     }

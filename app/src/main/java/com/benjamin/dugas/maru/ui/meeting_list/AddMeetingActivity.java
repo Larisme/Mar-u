@@ -51,7 +51,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         mApiService = DI.getMeetingApiService();
         int[] androidColors = getResources().getIntArray(R.array.randomColors);
         int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-        avatar.setBackgroundColor(randomAndroidColor);
+        avatar.setColorFilter(randomAndroidColor);
         init();
     }
 
@@ -80,6 +80,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         if (add.isEnabled())
             participants.add(participant.getText().toString());
         Meeting meeting = new Meeting(
+                avatar.getSolidColor(),
                 radioHourButton.getText().toString(),
                 radioLocationButton.getText().toString(),
                 topic.getEditText().getText().toString(),

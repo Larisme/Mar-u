@@ -1,9 +1,12 @@
 package com.benjamin.dugas.maru.ui.meeting_list;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,16 +14,27 @@ import androidx.appcompat.widget.Toolbar;
 import com.benjamin.dugas.maru.DI.DI;
 import com.benjamin.dugas.maru.R;
 import com.benjamin.dugas.maru.service.MeetingApiService;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ListMeetingActivity extends AppCompatActivity {
 
     private MeetingApiService mApiService;
+    /* private FloatingActionButton mAddFab;
+
+    private View.OnClickListener mAddFabOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mAddButtonClicked();
+        }
+    }; */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /* mAddFab = new FloatingActionButton(this); */
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         mApiService = DI.getMeetingApiService();
@@ -31,14 +45,31 @@ public class ListMeetingActivity extends AppCompatActivity {
                 return;
             getSupportFragmentManager().beginTransaction().add(R.id.fl_container, new MeetingFragment()).commit();
         }
-
+        /* mAddFab.setOnClickListener(mAddFabOnClickListener); */
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAddButtonClicked();
+            }
+        });
     }
+
+    private void mAddButtonClicked() { startActivity(new Intent(this, AddMeetingActivity.class)); }
+
+    /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add);
+    fab.setOnclickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(this, AddMeetingActivity.class));
+        }
+    });
 
     @OnClick(R.id.fab_add)
     void addMeeting() {
-        Intent addMeetingActivityIntent = new Intent(this, AddMeetingActivity.class);
-        startActivity(addMeetingActivityIntent);
-    }
+        Log.e("Add Meeting", "Il passe ?");
+        startActivity(new Intent(this, AddMeetingActivity.class));
+    } */
 
 
     @Override

@@ -14,5 +14,8 @@
     <integer-array name="randomColors">
         <item>@color/colorRandom1</item>
         <item>@color/colorRandom2</item>
+
+
     </integer-array>
+
 </resources>
