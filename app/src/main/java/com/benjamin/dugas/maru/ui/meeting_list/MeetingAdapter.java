@@ -34,13 +34,11 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
     @Override
     public void onBindViewHolder(MeetingViewHolder viewHolder, int position){
         final Meeting meeting = mMeetings.get(position);
-        Glide.with(viewHolder.mMeetingAvatar.getContext())
-                .load(meeting.getAvatarColor())
-                .apply(RequestOptions.circleCropTransform())
-                .into(viewHolder.mMeetingAvatar);
 
-        viewHolder.mMeetingAvatar.setColorFilter(meeting.getAvatarColor());
+        viewHolder.mMeetingAvatar.setCardBackgroundColor(meeting.getAvatarColor());
         viewHolder.mMeetingInfo.setText(String.format("Réunion %s - %s - %s", meeting.getLocation(), meeting.getHour(), meeting.getTopic()));
+//        if(meeting.getParticipant(0).length() > 1315)
+//            meeting.getParticipant(0) = meeting.getParticipant(0).substring(0,30);
         viewHolder.mMeetingParticipants.setText(String.format("%s, %s...", meeting.getParticipant(0), meeting.getParticipant(1)));
 
         viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener(){

@@ -5,6 +5,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.benjamin.dugas.maru.R;
@@ -15,7 +16,7 @@ import butterknife.ButterKnife;
 public class MeetingViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.item_list_avatar)
-    public ImageView mMeetingAvatar;
+    public CardView mMeetingAvatar;
     @BindView(R.id.item_list_name)
     public TextView mMeetingInfo;
     @BindView(R.id.tv_participants)

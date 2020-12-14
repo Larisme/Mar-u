@@ -1,10 +1,15 @@
 package com.benjamin.dugas.maru.ui.meeting_list;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -27,18 +32,13 @@ import butterknife.OnClick;
 
 public class AddMeetingActivity extends AppCompatActivity {
 
-    @BindView(R.id.avatar)
-    ImageView avatar;
-    @BindView(R.id.ti_topic)
+    CardView avatar;
     TextInputLayout topic;
-    @BindView(R.id.rg_location)
     RadioGroup location;
-    @BindView(R.id.rg_hour)
     RadioGroup hour;
-    @BindView(R.id.tiet_participant)
     TextInputEditText participant;
-    @BindView(R.id.mb_add)
-    MaterialButton add;
+    Button add;
+    Button create;
 
     private MeetingApiService mApiService;
     private List participants = new ArrayList();
@@ -47,11 +47,32 @@ public class AddMeetingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meeting);
-        ButterKnife.bind(this);
+        topic = findViewById(R.id.ti_topic);
+        location = findViewById(R.id.rg_location);
+        hour = findViewById(R.id.rg_hour);
+        participant = findViewById(R.id.tiet_participant);
+        avatar = findViewById(R.id.cv_avatar);
+
+        add = findViewById(R.id.b_add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAddButtonClicked();
+            }
+        });
+
+        create = findViewById(R.id.b_create);
+        create.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mCreateButtonClicked();
+            }
+        });
+
         mApiService = DI.getMeetingApiService();
         int[] androidColors = getResources().getIntArray(R.array.randomColors);
         int randomAndroidColor = androidColors[new Random().nextInt(androidColors.length)];
-        avatar.setColorFilter(randomAndroidColor);
+        avatar.setCardBackgroundColor(randomAndroidColor);
         init();
     }
 
@@ -67,26 +88,25 @@ public class AddMeetingActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.mb_add)
-    void addParticipant() {
+    public void mAddButtonClicked() {
         participants.add(participant.getText().toString());
         participant.setText("");
     }
 
-    @OnClick(R.id.mb_create)
-    void addMeeting() {
+    public void mCreateButtonClicked() {
         RadioButton radioHourButton = (RadioButton) findViewById(hour.getCheckedRadioButtonId());
         RadioButton radioLocationButton = (RadioButton) findViewById(location.getCheckedRadioButtonId());
         if (add.isEnabled())
             participants.add(participant.getText().toString());
         Meeting meeting = new Meeting(
-                avatar.getSolidColor(),
+                avatar.getCardBackgroundColor().getDefaultColor(),
                 radioHourButton.getText().toString(),
                 radioLocationButton.getText().toString(),
                 topic.getEditText().getText().toString(),
                 participants
         );
         mApiService.createMeeting(meeting);
+        Log.i("Test","Color : "+ meeting.getAvatarColor());
         finish();
     }
 }

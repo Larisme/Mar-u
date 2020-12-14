@@ -56,6 +56,10 @@ public class MeetingFragment extends Fragment {
         return view;
     }
 
+    public void initListFilter(List<Meeting> meetings) {
+        this.recyclerView.setAdapter(new MeetingAdapter(meetings));
+    }
+
     private void initList() {
         mMeetings = mApiService.getMeeting();
         this.recyclerView.setAdapter(new MeetingAdapter(mMeetings));

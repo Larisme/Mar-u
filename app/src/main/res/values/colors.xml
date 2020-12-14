@@ -6,6 +6,7 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorRed">#ce0a24</color>
     <color name="colorTitle">#212121</color>
+    <color name="colorGrey">#e0e0e0</color>
     <color name="colorParticipants">#434343</color>
     <color name="colorDelete">#3f445e</color>
     <color name="colorRandom1">#edd9d0</color>
@@ -14,8 +15,5 @@
     <integer-array name="randomColors">
         <item>@color/colorRandom1</item>
         <item>@color/colorRandom2</item>
-
-
     </integer-array>
-
 </resources>
