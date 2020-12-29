@@ -10,7 +10,7 @@
         android:iconTint="@color/colorWhite"
         app:showAsAction="ifRoom" >
         <menu>
-            <item android:id="@+id/menuItem_hour" android:title="Hour">
+            <item android:id="@+id/menuItem_hour" android:title="Hour" >
                 <menu>
                     <item android:id="@+id/i_09h00" android:title="09h00"/>
                     <item android:id="@+id/i_10h00" android:title="10h00"/>
