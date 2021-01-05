@@ -5,14 +5,19 @@ import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.benjamin.dugas.maru.DI.DI;
 import com.benjamin.dugas.maru.R;
@@ -23,6 +28,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -33,25 +39,51 @@ import butterknife.OnClick;
 public class AddMeetingActivity extends AppCompatActivity {
 
     CardView avatar;
-    TextInputLayout topic;
+    TextInputEditText topic;
     RadioGroup location;
-    RadioGroup hour;
+    TimePicker picker;
     TextInputEditText participant;
     Button add;
+    TextView list;
     Button create;
 
     private MeetingApiService mApiService;
     private List participants = new ArrayList();
+    private String textParticipants = "";
+    private int c = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meeting);
-        topic = findViewById(R.id.ti_topic);
+
+        topic = findViewById(R.id.tiet_topic);
+        topic.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_NEXT) {
+                    
+                }
+                return false;
+            }
+        });
+
         location = findViewById(R.id.rg_location);
-        hour = findViewById(R.id.rg_hour);
+
         participant = findViewById(R.id.tiet_participant);
+        participant.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    mAddButtonClicked();
+                }
+                return false;
+            }
+        });
+
         avatar = findViewById(R.id.cv_avatar);
+        picker = findViewById(R.id.time_picker);
+        picker.setIs24HourView(true);
 
         add = findViewById(R.id.b_add);
         add.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +92,8 @@ public class AddMeetingActivity extends AppCompatActivity {
                 mAddButtonClicked();
             }
         });
+
+        list = findViewById(R.id.tv_participants);
 
         create = findViewById(R.id.b_create);
         create.setOnClickListener(new View.OnClickListener(){
@@ -85,28 +119,41 @@ public class AddMeetingActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) { add.setEnabled(s.length() > 0); }
         });
-
     }
 
     public void mAddButtonClicked() {
         participants.add(participant.getText().toString());
         participant.setText("");
+        if (c == 0)
+            textParticipants = textParticipants + participants.get(c);
+        else
+            textParticipants = textParticipants + ", " + participants.get(c);
+        list.setText(textParticipants);
+        c++;
     }
 
     public void mCreateButtonClicked() {
-        RadioButton radioHourButton = (RadioButton) findViewById(hour.getCheckedRadioButtonId());
+        int hour = picker.getCurrentHour();
+        int minutes = picker.getCurrentMinute();
         RadioButton radioLocationButton = (RadioButton) findViewById(location.getCheckedRadioButtonId());
         if (add.isEnabled())
             participants.add(participant.getText().toString());
         Meeting meeting = new Meeting(
                 avatar.getCardBackgroundColor().getDefaultColor(),
-                radioHourButton.getText().toString(),
+                hour,
+                minutes,
                 radioLocationButton.getText().toString(),
-                topic.getEditText().getText().toString(),
+                topic.getText().toString(),
                 participants
-        );
-        mApiService.createMeeting(meeting);
-        Log.i("Test","Color : "+ meeting.getAvatarColor());
-        finish();
+            );
+        for (Meeting checkMeeting : mApiService.getMeeting()) {
+            if (checkMeeting.getHour() == meeting.getHour() && checkMeeting.getMinutes() == meeting.getMinutes() || participants.size() < 2) {
+                break;
+            }
+            else {
+                mApiService.createMeeting(meeting);
+                finish();
+            }
+        }
     }
 }

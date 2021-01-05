@@ -7,8 +7,7 @@ import java.util.List;
 
 public class DummyMeetingApiService implements MeetingApiService {
 
-    private List<Meeting> meetings = new ArrayList<>();
-
+    private List<Meeting> meetings = DummyMeetingGenerator.generateMeetings();
 
     @Override
     public List<Meeting> getMeeting() { return meetings; }
@@ -30,10 +29,10 @@ public class DummyMeetingApiService implements MeetingApiService {
     }
 
     @Override
-    public List<Meeting> filterMeetingByHour(String hour) {
+    public List<Meeting> filterMeetingByHour( int hour ) {
         List<Meeting> filterMeeting = new ArrayList<>();
         for (Meeting meeting : meetings) {
-            if (meeting.getHour().equals(hour))
+            if (meeting.getHour() == hour)
                 filterMeeting.add(meeting);
         }
         return filterMeeting;

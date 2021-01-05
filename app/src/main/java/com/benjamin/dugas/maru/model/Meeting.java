@@ -8,7 +8,8 @@ public class    Meeting {
     private int avatarColor;
 
     /** Hour **/
-    private String hour;
+    private int hour;
+    private int minutes;
 
     /** Location **/
     private String location;
@@ -26,10 +27,11 @@ public class    Meeting {
      * @param topic
      * @param participants
      */
-    public Meeting(int avatarColor, String hour, String location, String topic,
+    public Meeting(int avatarColor, int hour, int minutes,  String location, String topic,
                    List<String> participants) {
         this.avatarColor = avatarColor;
         this.hour = hour;
+        this.minutes = minutes;
         this.location = location;
         this.topic = topic;
         this.participants = participants;
@@ -39,9 +41,13 @@ public class    Meeting {
 
     public void setAvatarColor(int avatarColor) { this.avatarColor = avatarColor; }
 
-    public String getHour() { return hour; }
+    public int getHour() { return hour; }
 
-    public void setHour(String hour) { this.hour = hour; }
+    public void setHour(int hour) { this.hour = hour; }
+
+    public int getMinutes() {return minutes; }
+
+    public void setMinutes(int minutes) {this.minutes = minutes;}
 
     public String getLocation() { return location; }
 

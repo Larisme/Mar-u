@@ -11,9 +11,15 @@
     <color name="colorDelete">#3f445e</color>
     <color name="colorRandom1">#edd9d0</color>
     <color name="colorRandom2">#aeceb8</color>
+    <color name="colorRandom3">#532764</color>
+    <color name="colorRandom4">#ff0000</color>
+    <color name="colorRandom5">#181818</color>
 
     <integer-array name="randomColors">
         <item>@color/colorRandom1</item>
         <item>@color/colorRandom2</item>
+        <item>@color/colorRandom3</item>
+        <item>@color/colorRandom4</item>
+        <item>@color/colorRandom5</item>
     </integer-array>
 </resources>

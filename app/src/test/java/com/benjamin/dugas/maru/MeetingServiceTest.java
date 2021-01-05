@@ -33,7 +33,8 @@ public class MeetingServiceTest {
         participants.add("Test2");
         Meeting newMeeting = new Meeting(
                 10,
-                "10h00",
+                10,
+                0,
                 "F",
                 "Test",
                 participants
@@ -44,56 +45,18 @@ public class MeetingServiceTest {
 
     @Test
     public void deleteMeetingWithSuccess() {
-        List<String> participants = new ArrayList<String>();
-        participants.add("Test1");
-        participants.add("Test2");
-        Meeting newMeeting = new Meeting(
-                10,
-                "10h00",
-                "F",
-                "Test",
-                participants
-        );
-        service.createMeeting(newMeeting);
-        Meeting neighbourToDelete = service.getMeeting().get(0);
-        service.deleteMeeting(neighbourToDelete);
-        assertFalse(service.getMeeting().contains(neighbourToDelete));
+        Meeting meetingToDelete = service.getMeeting().get(0);
+        service.deleteMeeting(meetingToDelete);
+        assertFalse(service.getMeeting().contains(meetingToDelete));
     }
 
     @Test
     public void filterMeetingWithSuccess() {
-        List<String> participants = new ArrayList<String>();
-        participants.add("Test1");
-        participants.add("Test2");
-        Meeting newMeeting1 = new Meeting(
-                10,
-                "10h00",
-                "F",
-                "Test",
-                participants
-        );
-        service.createMeeting(newMeeting1);
-        Meeting newMeeting = new Meeting(
-                10,
-                "11h00",
-                "A",
-                "Test",
-                participants
-        );
-        service.createMeeting(newMeeting);
-        Meeting newMeeting2 = new Meeting(
-                10,
-                "13h00",
-                "A",
-                "Test",
-                participants
-        );
-        service.createMeeting(newMeeting2);
-        service.filterMeetingByHour("10h00");
-        int sizeHour = service.filterMeetingByHour("10h00").size();
-        assertEquals(sizeHour, 1);
+        service.filterMeetingByHour(10);
+        int sizeHour = service.filterMeetingByHour(10).size();
+        assertEquals(sizeHour, 2);
         service.filterMeetingByLocation("A");
         int sizeLocation = service.filterMeetingByLocation("A").size();
-        assertEquals(sizeLocation, 2 );
+        assertEquals(sizeLocation, 1 );
     }
 }

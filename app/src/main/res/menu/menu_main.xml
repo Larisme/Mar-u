@@ -34,9 +34,6 @@
                     <item android:id="@+id/i_e" android:title="E"/>
                     <item android:id="@+id/i_f" android:title="F"/>
                     <item android:id="@+id/i_g" android:title="G"/>
-                    <item android:id="@+id/i_h" android:title="H"/>
-                    <item android:id="@+id/i_i" android:title="I"/>
-                    <item android:id="@+id/i_j" android:title="J"/>
                 </menu>
             </item>
         </menu>

@@ -79,60 +79,21 @@ public class MeetingListTest {
     public void myMeetingList_deleteAction_shouldRemoveItem() {
         int count = service.getMeeting().size();
         onView(withId(R.id.meeting_list)).check(withItemCount(count));
-        onView(withId(R.id.fab_add)).perform(click());
-        onView(withId(R.id.tiet_topic)).perform(typeText("Test"), closeSoftKeyboard());
-        onView(withId(R.id.rb_f)).perform(click());
-        onView(withId(R.id.rb_10)).perform(click());
-        onView(withId(R.id.tiet_participant)).perform(typeText("Test1"), closeSoftKeyboard());
-        onView(withId(R.id.b_add)).perform(click());
-        onView(withId(R.id.tiet_participant)).perform(typeText("Test2"), closeSoftKeyboard());
-        onView(withId(R.id.b_create)).perform(click());
-        onView(withId(R.id.meeting_list)).check(withItemCount(count+1));
         onView(withId(R.id.meeting_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0, new DeleteViewAction()));
-        onView(withId(R.id.meeting_list)).check(withItemCount(count));
+        onView(withId(R.id.meeting_list)).check(withItemCount(count-1));
     }
 
     @Test
     public void myMeetingList_filterAction_shouldShowFilterItem() {
         int count = service.getMeeting().size();
         onView(withId(R.id.meeting_list)).check(withItemCount(count));
-        onView(withId(R.id.fab_add)).perform(click());
-        onView(withId(R.id.tiet_topic)).perform(typeText("Test"), closeSoftKeyboard());
-        onView(withId(R.id.rb_f)).perform(click());
-        onView(withId(R.id.rb_10)).perform(click());
-        onView(withId(R.id.tiet_participant)).perform(typeText("Test1"), closeSoftKeyboard());
-        onView(withId(R.id.b_add)).perform(click());
-        onView(withId(R.id.tiet_participant)).perform(typeText("Test2"), closeSoftKeyboard());
-        onView(withId(R.id.b_create)).perform(click());
-        onView(withId(R.id.meeting_list)).check(withItemCount(count+1));
-        onView(withId(R.id.fab_add)).perform(click());
-        onView(withId(R.id.tiet_topic)).perform(typeText("Test1"), closeSoftKeyboard());
-        onView(withId(R.id.rb_f)).perform(click());
-        onView(withId(R.id.rb_10)).perform(click());
-        onView(withId(R.id.tiet_participant)).perform(typeText("Test3"), closeSoftKeyboard());
-        onView(withId(R.id.b_add)).perform(click());
-        onView(withId(R.id.tiet_participant)).perform(typeText("Test4"), closeSoftKeyboard());
-        onView(withId(R.id.b_create)).perform(click());
-        onView(withId(R.id.meeting_list)).check(withItemCount(count+2));
-        onView(withId(R.id.fab_add)).perform(click());
-        onView(withId(R.id.tiet_topic)).perform(typeText("Test2"), closeSoftKeyboard());
-        onView(withId(R.id.rb_a)).perform(click());
-        onView(withId(R.id.rb_13)).perform(click());
-        onView(withId(R.id.tiet_participant)).perform(typeText("Test5"), closeSoftKeyboard());
-        onView(withId(R.id.b_add)).perform(click());
-        onView(withId(R.id.tiet_participant)).perform(typeText("Test6"), closeSoftKeyboard());
-        onView(withId(R.id.b_create)).perform(click());
-        onView(withId(R.id.meeting_list)).check(withItemCount(count+3));
         onView(withId(R.id.action_settings)).perform(click());
-//        onView(withId(R.id.menuItem_hour)).check(matches(withText(containsString("Hour"))));
-//        onData(allOf(instanceOf(String.class), startsWith("Hour"))).perform(click());
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-        onView(ViewMatchers.withId(R.id.menuItem_hour)).perform(click());
-        onView(withId(R.id.i_10h00)).perform(click());
-        onView(withId(R.id.meeting_list)).check(withItemCount(count+1));
+        onView(ViewMatchers.withText("Hour")).perform(click());
+        onView(ViewMatchers.withText("10h00")).perform(click());
+        onView(withId(R.id.meeting_list)).check(withItemCount(count-1));
         onView(withId(R.id.action_settings)).perform(click());
-        onView(withId(R.id.menuItem_location)).perform(click());
-        onView(withId(R.id.i_a)).perform(click());
-        onView(withId(R.id.meeting_list)).check(withItemCount(count+2));
+        onView(ViewMatchers.withText("Location")).perform(click());
+        onView(ViewMatchers.withText("A")).perform(click());
+        onView(withId(R.id.meeting_list)).check(withItemCount(count-2));
     }
 }

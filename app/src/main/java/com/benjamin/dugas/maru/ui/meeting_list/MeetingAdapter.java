@@ -36,7 +36,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
         final Meeting meeting = mMeetings.get(position);
 
         viewHolder.mMeetingAvatar.setCardBackgroundColor(meeting.getAvatarColor());
-        viewHolder.mMeetingInfo.setText(String.format("Réunion %s - %s - %s", meeting.getLocation(), meeting.getHour(), meeting.getTopic()));
+        viewHolder.mMeetingInfo.setText(String.format("Réunion %s - %sh%s - %s", meeting.getLocation(), meeting.getHour(), meeting.getMinutes(), meeting.getTopic()));
 //        if(meeting.getParticipant(0).length() > 1315)
 //            meeting.getParticipant(0) = meeting.getParticipant(0).substring(0,30);
         viewHolder.mMeetingParticipants.setText(String.format("%s, %s...", meeting.getParticipant(0), meeting.getParticipant(1)));

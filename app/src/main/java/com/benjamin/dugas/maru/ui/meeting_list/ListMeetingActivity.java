@@ -57,37 +57,37 @@ public class ListMeetingActivity extends AppCompatActivity {
             return true;
         switch (item.getItemId()) {
             case R.id.i_09h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("09h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(9));
                 return true;
             case R.id.i_10h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("10h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(10));
                 return true;
             case R.id.i_11h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("11h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(11));
                 return true;
             case R.id.i_12h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("12h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(12));
                 return true;
             case R.id.i_13h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("13h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(13));
                 return true;
             case R.id.i_14h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("14h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(14));
                 return true;
             case R.id.i_15h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("15h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(15));
                 return true;
             case R.id.i_16h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("16h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(16));
                 return true;
             case R.id.i_17h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("17h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(17));
                 return true;
             case R.id.i_18h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("18h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(18));
                 return true;
             case R.id.i_19h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour("19h00"));
+                fragment.initListFilter(mApiService.filterMeetingByHour(19));
                 return true;
             case R.id.i_a:
                 fragment.initListFilter(mApiService.filterMeetingByLocation("A"));
@@ -109,15 +109,6 @@ public class ListMeetingActivity extends AppCompatActivity {
                 return true;
             case R.id.i_g:
                 fragment.initListFilter(mApiService.filterMeetingByLocation("G"));
-                return true;
-            case R.id.i_h:
-                fragment.initListFilter(mApiService.filterMeetingByLocation("H"));
-                return true;
-            case R.id.i_i:
-                fragment.initListFilter(mApiService.filterMeetingByLocation("I"));
-                return true;
-            case R.id.i_j:
-                fragment.initListFilter(mApiService.filterMeetingByLocation("J"));
                 return true;
         }
 
