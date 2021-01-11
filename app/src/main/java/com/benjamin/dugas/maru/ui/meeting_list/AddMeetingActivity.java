@@ -98,6 +98,7 @@ public class AddMeetingActivity extends AppCompatActivity {
                 mCreateButtonClicked();
             }
         });
+        create.setEnabled(false);
 
         mApiService = DI.getMeetingApiService();
         int[] androidColors = getResources().getIntArray(R.array.randomColors);
@@ -122,19 +123,19 @@ public class AddMeetingActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) { }
             @Override
-            public void afterTextChanged(Editable s) { mCreateActivation(); }
+            public void afterTextChanged(Editable s) { mCreateButtonEnable(); }
         });
 
         location.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) { mCreateActivation(); }
+            public void onCheckedChanged(RadioGroup group, int checkedId) { mCreateButtonEnable(); }
         });
     }
 
-    public void mCreateActivation() {
-        boolean test = topic.getText() != null && topic.getText().toString().length() > 0;
-        boolean test2 = location.getCheckedRadioButtonId() != -1;
-        create.setEnabled(test && test2);
+    public void mCreateButtonEnable() {
+        boolean topicCheck = topic.getText() != null && topic.getText().toString().length() > 0;
+        boolean locationCheck = location.getCheckedRadioButtonId() != -1;
+        create.setEnabled(topicCheck && locationCheck);
     }
 
     public void mAddButtonClicked() {
@@ -149,7 +150,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     public void mCreateButtonClicked() {
-        boolean checkGoddMeeting = false;
+        boolean checkGoodMeeting = false;
         int hour = picker.getCurrentHour();
         int minutes = picker.getCurrentMinute();
         RadioButton radioLocationButton = (RadioButton) findViewById(location.getCheckedRadioButtonId());
@@ -163,17 +164,24 @@ public class AddMeetingActivity extends AppCompatActivity {
                 topic.getText().toString(),
                 participants
             );
-        for (Meeting checkMeeting : mApiService.getMeeting()) {
-            if (checkMeeting.getHour() == meeting.getHour() && checkMeeting.getMinutes() == meeting.getMinutes() || participants.size() < 2) {
-                Toast.makeText(getApplicationContext(), "Your meeting already exists or you need 2 more participants !", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            else {
-                checkGoddMeeting = true;
-                break;
+
+        if (mApiService.getMeeting().size() > 0) {
+            for (Meeting checkMeeting : mApiService.getMeeting()) {
+                if (checkMeeting.getHour() == meeting.getHour() && checkMeeting.getMinutes() == meeting.getMinutes() || participants.size() < 2) {
+                    Toast.makeText(getApplicationContext(), "Your meeting already exists or you need 2 more participants !", Toast.LENGTH_SHORT).show();
+                    break;
+                } else {
+                    checkGoodMeeting = true;
+                    break;
+                }
             }
         }
-        if (checkGoddMeeting) {
+        else if (participants.size() < 2)
+            Toast.makeText(getApplicationContext(), "You need 2 participants minimum !", Toast.LENGTH_SHORT).show();
+        else
+            checkGoodMeeting = true;
+
+        if (checkGoodMeeting) {
             mApiService.createMeeting(meeting);
             finish();
         }
