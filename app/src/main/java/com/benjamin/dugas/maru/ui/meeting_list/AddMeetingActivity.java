@@ -1,40 +1,32 @@
 package com.benjamin.dugas.maru.ui.meeting_list;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.benjamin.dugas.maru.DI.DI;
 import com.benjamin.dugas.maru.R;
 import com.benjamin.dugas.maru.model.Meeting;
 import com.benjamin.dugas.maru.service.MeetingApiService;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddMeetingActivity extends AppCompatActivity {
 
@@ -61,10 +53,12 @@ public class AddMeetingActivity extends AppCompatActivity {
         topic.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
                 if(actionId == EditorInfo.IME_ACTION_NEXT) {
-                    
+                    hideKeyboard(AddMeetingActivity.this);
+                    handled = true;
                 }
-                return false;
+                return handled;
             }
         });
 
@@ -74,10 +68,12 @@ public class AddMeetingActivity extends AppCompatActivity {
         participant.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE){
                     mAddButtonClicked();
+                    handled = true;
                 }
-                return false;
+                return handled;
             }
         });
 
@@ -119,6 +115,26 @@ public class AddMeetingActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) { add.setEnabled(s.length() > 0); }
         });
+
+        topic.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) { mCreateActivation(); }
+        });
+
+        location.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) { mCreateActivation(); }
+        });
+    }
+
+    public void mCreateActivation() {
+        boolean test = topic.getText() != null && topic.getText().toString().length() > 0;
+        boolean test2 = location.getCheckedRadioButtonId() != -1;
+        create.setEnabled(test && test2);
     }
 
     public void mAddButtonClicked() {
@@ -133,6 +149,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     public void mCreateButtonClicked() {
+        boolean checkGoddMeeting = false;
         int hour = picker.getCurrentHour();
         int minutes = picker.getCurrentMinute();
         RadioButton radioLocationButton = (RadioButton) findViewById(location.getCheckedRadioButtonId());
@@ -148,12 +165,26 @@ public class AddMeetingActivity extends AppCompatActivity {
             );
         for (Meeting checkMeeting : mApiService.getMeeting()) {
             if (checkMeeting.getHour() == meeting.getHour() && checkMeeting.getMinutes() == meeting.getMinutes() || participants.size() < 2) {
+                Toast.makeText(getApplicationContext(), "Your meeting already exists or you need 2 more participants !", Toast.LENGTH_SHORT).show();
                 break;
             }
             else {
-                mApiService.createMeeting(meeting);
-                finish();
+                checkGoddMeeting = true;
+                break;
             }
         }
+        if (checkGoddMeeting) {
+            mApiService.createMeeting(meeting);
+            finish();
+        }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

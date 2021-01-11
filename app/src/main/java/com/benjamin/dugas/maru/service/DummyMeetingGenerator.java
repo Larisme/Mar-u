@@ -14,7 +14,7 @@ public abstract class DummyMeetingGenerator {
     private static List participants = Arrays.asList("Test1", "Test2");
 
     public static List<Meeting> DUMMY_MEETING = Arrays.asList(
-            new Meeting(red,10, 52, "A", "Test", participants),
+            new Meeting(red,10, 52, "A", "test", participants),
             new Meeting(black,13, 52, "F", "Test1", participants),
             new Meeting(purple,10, 52, "F", "Test2", participants)
     );

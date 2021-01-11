@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.benjamin.dugas.maru.R;
 import com.benjamin.dugas.maru.events.DeleteMeetingEvent;
 import com.benjamin.dugas.maru.model.Meeting;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -37,8 +35,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
         viewHolder.mMeetingAvatar.setCardBackgroundColor(meeting.getAvatarColor());
         viewHolder.mMeetingInfo.setText(String.format("Réunion %s - %sh%s - %s", meeting.getLocation(), meeting.getHour(), meeting.getMinutes(), meeting.getTopic()));
-//        if(meeting.getParticipant(0).length() > 1315)
-//            meeting.getParticipant(0) = meeting.getParticipant(0).substring(0,30);
         viewHolder.mMeetingParticipants.setText(String.format("%s, %s...", meeting.getParticipant(0), meeting.getParticipant(1)));
 
         viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener(){
