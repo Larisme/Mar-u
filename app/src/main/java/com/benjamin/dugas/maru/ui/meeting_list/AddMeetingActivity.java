@@ -167,7 +167,7 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         if (mApiService.getMeeting().size() > 0) {
             for (Meeting checkMeeting : mApiService.getMeeting()) {
-                if (checkMeeting.getHour() == meeting.getHour() && checkMeeting.getMinutes() == meeting.getMinutes() || participants.size() < 2) {
+                if (checkMeeting.getHour() == meeting.getHour() && checkMeeting.getLocation() == meeting.getLocation() || participants.size() < 2) {
                     Toast.makeText(getApplicationContext(), "Your meeting already exists or you need 2 more participants !", Toast.LENGTH_SHORT).show();
                     break;
                 } else {
