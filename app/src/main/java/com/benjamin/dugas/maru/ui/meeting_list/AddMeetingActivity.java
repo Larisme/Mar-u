@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,12 +28,15 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddMeetingActivity extends AppCompatActivity {
 
     CardView avatar;
     TextInputEditText topic;
     RadioGroup location;
+    DatePicker datePicker;
     TimePicker picker;
     TextInputEditText participant;
     Button add;
@@ -78,6 +82,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         });
 
         avatar = findViewById(R.id.cv_avatar);
+        datePicker = findViewById(R.id.date_picker);
         picker = findViewById(R.id.time_picker);
         picker.setIs24HourView(true);
 
@@ -139,25 +144,55 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     public void mAddButtonClicked() {
-        participants.add(participant.getText().toString());
-        participant.setText("");
-        if (c == 0)
-            textParticipants = textParticipants + participants.get(c);
+        if(isEmailValid(participant.getText().toString())){
+            participants.add(participant.getText().toString());
+            participant.setText("");
+            if (c == 0)
+                textParticipants = textParticipants + participants.get(c);
+            else
+                textParticipants = textParticipants + ", " + participants.get(c);
+            list.setText(textParticipants);
+            c++;
+        }
         else
-            textParticipants = textParticipants + ", " + participants.get(c);
-        list.setText(textParticipants);
-        c++;
+            Toast.makeText(getApplicationContext(), "You need a mail address !", Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean isEmailValid(String email)
+    {
+        String regExpn =
+                "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                        +"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                        +"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                        +"[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                        +"([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$";
+
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(regExpn, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+
+        if(matcher.matches())
+            return true;
+        else
+            return false;
     }
 
     public void mCreateButtonClicked() {
         boolean checkGoodMeeting = false;
-        int hour = picker.getCurrentHour();
-        int minutes = picker.getCurrentMinute();
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int hour = picker.getHour();
+        int minutes = picker.getMinute();
         RadioButton radioLocationButton = (RadioButton) findViewById(location.getCheckedRadioButtonId());
+
         if (add.isEnabled())
             participants.add(participant.getText().toString());
         Meeting meeting = new Meeting(
                 avatar.getCardBackgroundColor().getDefaultColor(),
+                day,
+                month,
                 hour,
                 minutes,
                 radioLocationButton.getText().toString(),
@@ -167,7 +202,8 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         if (mApiService.getMeeting().size() > 0) {
             for (Meeting checkMeeting : mApiService.getMeeting()) {
-                if (checkMeeting.getHour() == meeting.getHour() && checkMeeting.getLocation() == meeting.getLocation() || participants.size() < 2) {
+                if (checkMeeting.getHour() == meeting.getHour() && checkMeeting.getLocation() == meeting.getLocation() && checkMeeting.getDay() == meeting.getDay()
+                        && checkMeeting.getMonth() == meeting.getMonth() || participants.size() < 2) {
                     Toast.makeText(getApplicationContext(), "Your meeting already exists or you need 2 more participants !", Toast.LENGTH_SHORT).show();
                     break;
                 } else {

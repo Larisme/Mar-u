@@ -7,6 +7,10 @@ public class    Meeting {
     /** Avatar **/
     private int avatarColor;
 
+    /** Date **/
+    private int day;
+    private int month;
+
     /** Hour **/
     private int hour;
     private int minutes;
@@ -22,14 +26,20 @@ public class    Meeting {
 
     /**
      * Constructor
+     * @param avatarColor
+     * @param day
+     * @param month
      * @param hour
+     * @param minutes
      * @param location
      * @param topic
      * @param participants
      */
-    public Meeting(int avatarColor, int hour, int minutes,  String location, String topic,
+    public Meeting(int avatarColor, int day, int month, int hour, int minutes,  String location, String topic,
                    List<String> participants) {
         this.avatarColor = avatarColor;
+        this.day = day;
+        this.month = month;
         this.hour = hour;
         this.minutes = minutes;
         this.location = location;
@@ -40,6 +50,14 @@ public class    Meeting {
     public int getAvatarColor() {return avatarColor; }
 
     public void setAvatarColor(int avatarColor) { this.avatarColor = avatarColor; }
+
+    public int getDay() { return day; }
+
+    public void setDay(int day) { this.day = day; }
+
+    public int getMonth() { return month; }
+
+    public void setMonth(int month) { this.month = month; }
 
     public int getHour() { return hour; }
 

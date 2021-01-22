@@ -35,7 +35,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
         viewHolder.mMeetingAvatar.setCardBackgroundColor(meeting.getAvatarColor());
         viewHolder.mMeetingInfo.setText(String.format("Réunion %s - %sh%s - %s", meeting.getLocation(), meeting.getHour(), meeting.getMinutes(), meeting.getTopic()));
-        viewHolder.mMeetingParticipants.setText(String.format("%s, %s...", meeting.getParticipant(0), meeting.getParticipant(1)));
+        viewHolder.mMeetingParticipants.setText(String.format("%s, %s", meeting.getParticipant(0), meeting.getParticipant(1)));
 
         viewHolder.mDeleteButton.setOnClickListener(new View.OnClickListener(){
             @Override

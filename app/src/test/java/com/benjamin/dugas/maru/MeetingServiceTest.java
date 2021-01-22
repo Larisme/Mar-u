@@ -35,6 +35,8 @@ public class MeetingServiceTest {
                 10,
                 10,
                 0,
+                15,
+                36,
                 "F",
                 "Test",
                 participants
@@ -52,8 +54,8 @@ public class MeetingServiceTest {
 
     @Test
     public void filterMeetingWithSuccess() {
-        service.filterMeetingByHour(10);
-        int sizeHour = service.filterMeetingByHour(10).size();
+        service.filterMeetingByDate(10, 2);
+        int sizeHour = service.filterMeetingByDate(10, 2).size();
         assertEquals(sizeHour, 2);
         service.filterMeetingByLocation("A");
         int sizeLocation = service.filterMeetingByLocation("A").size();

@@ -14,5 +14,5 @@ public interface MeetingApiService {
 
     List<Meeting> filterMeetingByLocation(String location);
 
-    List<Meeting> filterMeetingByHour(/*String hour*/ int hour);
+    List<Meeting> filterMeetingByDate(int day, int month);
 }

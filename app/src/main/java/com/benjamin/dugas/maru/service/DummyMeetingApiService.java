@@ -29,10 +29,10 @@ public class DummyMeetingApiService implements MeetingApiService {
     }
 
     @Override
-    public List<Meeting> filterMeetingByHour( int hour ) {
+    public List<Meeting> filterMeetingByDate( int day, int month ) {
         List<Meeting> filterMeeting = new ArrayList<>();
         for (Meeting meeting : meetings) {
-            if (meeting.getHour() == hour)
+            if (meeting.getDay() == day && meeting.getMonth() == month)
                 filterMeeting.add(meeting);
         }
         return filterMeeting;

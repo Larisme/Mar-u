@@ -1,10 +1,12 @@
 package com.benjamin.dugas.maru.ui.meeting_list;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +16,7 @@ import com.benjamin.dugas.maru.R;
 import com.benjamin.dugas.maru.service.MeetingApiService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ListMeetingActivity extends AppCompatActivity {
+public class ListMeetingActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private MeetingApiService mApiService;
 
@@ -51,43 +53,20 @@ public class ListMeetingActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        ((MeetingFragment) getSupportFragmentManager().findFragmentByTag("meeting")).initListFilter(mApiService.filterMeetingByDate(dayOfMonth,month));
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         MeetingFragment fragment = (MeetingFragment)getSupportFragmentManager().findFragmentByTag("meeting");
         if (fragment == null)
             return true;
         switch (item.getItemId()) {
-            case R.id.i_09h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(9));
-                return true;
-            case R.id.i_10h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(10));
-                return true;
-            case R.id.i_11h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(11));
-                return true;
-            case R.id.i_12h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(12));
-                return true;
-            case R.id.i_13h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(13));
-                return true;
-            case R.id.i_14h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(14));
-                return true;
-            case R.id.i_15h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(15));
-                return true;
-            case R.id.i_16h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(16));
-                return true;
-            case R.id.i_17h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(17));
-                return true;
-            case R.id.i_18h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(18));
-                return true;
-            case R.id.i_19h00:
-                fragment.initListFilter(mApiService.filterMeetingByHour(19));
+            case R.id.i_date:
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ListMeetingActivity.this);
+                datePickerDialog.setOnDateSetListener(this);
+                datePickerDialog.show();
                 return true;
             case R.id.i_a:
                 fragment.initListFilter(mApiService.filterMeetingByLocation("A"));

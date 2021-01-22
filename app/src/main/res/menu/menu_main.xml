@@ -10,21 +10,7 @@
         android:iconTint="@color/colorWhite"
         app:showAsAction="ifRoom" >
         <menu>
-            <item android:id="@+id/menuItem_hour" android:title="Hour" >
-                <menu>
-                    <item android:id="@+id/i_09h00" android:title="09h00"/>
-                    <item android:id="@+id/i_10h00" android:title="10h00"/>
-                    <item android:id="@+id/i_11h00" android:title="11h00"/>
-                    <item android:id="@+id/i_12h00" android:title="12h00"/>
-                    <item android:id="@+id/i_13h00" android:title="13h00"/>
-                    <item android:id="@+id/i_14h00" android:title="14h00"/>
-                    <item android:id="@+id/i_15h00" android:title="15h00"/>
-                    <item android:id="@+id/i_16h00" android:title="16h00"/>
-                    <item android:id="@+id/i_17h00" android:title="17h00"/>
-                    <item android:id="@+id/i_18h00" android:title="18h00"/>
-                    <item android:id="@+id/i_19h00" android:title="19h00"/>
-                </menu>
-            </item>
+            <item android:id="@+id/i_date" android:title="Date"/>
             <item android:id="@+id/menuItem_location" android:title="Location">
                 <menu>
                     <item android:id="@+id/i_a" android:title="A"/>
@@ -34,6 +20,9 @@
                     <item android:id="@+id/i_e" android:title="E"/>
                     <item android:id="@+id/i_f" android:title="F"/>
                     <item android:id="@+id/i_g" android:title="G"/>
+                    <item android:id="@+id/i_h" android:title="H"/>
+                    <item android:id="@+id/i_i" android:title="I"/>
+                    <item android:id="@+id/i_j" android:title="J"/>
                 </menu>
             </item>
         </menu>
